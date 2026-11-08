@@ -215,8 +215,8 @@ function resultado(r){
     <div class="cta"><div class="k">Siguiente paso</div>
       <h3>Mándame tus números por DM y te digo qué ajustaría primero en tu caso</h3>
       <div class="copy" id="txt">${texto}</div>
-      <button class="btn btn-ink" onclick="dm()">Copiar y abrir mi DM</button>
-      <div class="mini">Se copian tus números. En el chat solo pégalos y envía.</div>
+      <button class="btn btn-ink" id="cp" onclick="copiar()">Copiar mis números</button>
+      <div class="mini" id="paso">Luego cierra esta página y pégalos en nuestro chat de Instagram.</div>
     </div>
 
     <div class="case"><b>Así lo hizo José</b>Bajó de 132 a 119 kg en su primer mes: entrenando y comiendo con cantidades claras, sin pasar hambre.</div>
@@ -231,12 +231,16 @@ function resultado(r){
   window.scrollTo(0,0);
 }
 
-function dm(){
+function copiar(){
   const t = document.getElementById('txt').textContent;
-  const abrir = () => { location.href = 'https://ig.me/m/' + IG; };
+  const listo = () => {
+    const b = document.getElementById('cp'); b.textContent = '✓ Copiado';
+    const p = document.getElementById('paso');
+    p.innerHTML = '<b style="color:#111;font-size:15px">Ahora cierra esta página (la X de arriba) y pégalos en nuestro chat. Ahí te contesto.</b>';
+  };
   if(navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(t).then(abrir, ()=>{ copiaVieja(t); abrir(); });
-  } else { copiaVieja(t); abrir(); }
+    navigator.clipboard.writeText(t).then(listo, ()=>{ copiaVieja(t); listo(); });
+  } else { copiaVieja(t); listo(); }
 }
 function copiaVieja(t){
   const a=document.createElement('textarea'); a.value=t; a.style.position='fixed'; a.style.opacity='0';
